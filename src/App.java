@@ -1,31 +1,37 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.swing.*;
 
 public class App{
     final static int width = 400, height = 400;
-    static JPanel cards;
     final static String MAIN_PANEL = "main";
     final static String SEARCH_PANEL = "search";
     final static String HISTORY_PANEL = "history";
+    final static String EDIT_MAIN_PANEL = "edit main";
+    static JPanel cards;
+
+    static HashMap<String, String> slangs = new HashMap<>();
 
     public void addComponentToPane(Container pane) {
         JLabel lblApp = new JLabel("Slang Dictionary");
         lblApp.setFont(new Font("Serif", Font.PLAIN, 32));
         lblApp.setHorizontalAlignment(SwingConstants.CENTER);
+        lblApp.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
         MainPane mainPane = new MainPane();
         SearchPane searchPane = new SearchPane();
         HistoryPane historyPane = new HistoryPane();
-        
-        // JPanel card2 = new JPanel();
-        // card2.add(new JTextField("TextField", 20));
+        EditMainPane editMainPane = new EditMainPane();
         
         //Create the panel that contains the "cards".
         cards = new JPanel(new CardLayout());
         cards.add(mainPane, MAIN_PANEL);
         cards.add(searchPane, SEARCH_PANEL);
         cards.add(historyPane, HISTORY_PANEL);
+        cards.add(editMainPane, EDIT_MAIN_PANEL);
         
         pane.add(lblApp, BorderLayout.PAGE_START);
         pane.add(cards, BorderLayout.CENTER);
@@ -34,6 +40,23 @@ public class App{
     public static void changePane(String paneName) {
         CardLayout cl = (CardLayout)(cards.getLayout());
         cl.show(cards, paneName);
+    }
+
+    public static String searchKey(String key) {
+        if (slangs.containsKey(key)) {
+            return (String)slangs.get(key);
+        }
+        return "";
+    }
+
+    public static ArrayList<String> searchValue(String value) {
+        ArrayList<String> ans = new ArrayList<>();
+        slangs.forEach((key, val) -> {
+            if (((String) val).contains(value)) {
+                ans.add(key + ": " + val);
+            }
+        });
+        return ans;
     }
 
     public static void exit() {
@@ -53,10 +76,12 @@ public class App{
         //Display the window.
         frame.pack();
         frame.setVisible(true);
-        
     }
 
     public static void main(String[] args) {
+        slangs = FileHelper.readSlangWord();
+        // slangs.forEach(action);
+        // System.out.println(slangs.get("key"));
         createAndShowGUI();
         // System.out.println("This is Slang Dictionary!");
     }
