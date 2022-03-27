@@ -27,6 +27,13 @@ public class MainPane extends JPanel{
 
         JButton btnEdit = new JButton("Edit Dictionary");
         btnEdit.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                App.changePane(App.EDIT_MAIN_PANEL);
+            }
+        });
+
         JButton btnRandom = new JButton("Random slang word");
         btnRandom.setAlignmentX(Component.CENTER_ALIGNMENT);
         JButton btnQuiz = new JButton("Funny Quiz");
