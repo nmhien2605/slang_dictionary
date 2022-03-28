@@ -95,6 +95,11 @@ public class App{
         slangs.remove(key);
     }
 
+    public static void resetDictionary() {
+        slangs.clear();
+        slangs = FileHelper.readSlangWord();
+    }
+
     public static void exit() {
         System.exit(0);
     }

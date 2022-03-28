@@ -15,6 +15,7 @@ public class EditMainPane extends JPanel {
     JButton btnReset, btnAdd, btnEdit, btnDelete, btnBack;
 
     ButtonEditListener btnEditListener = new ButtonEditListener();
+    ButtonResetListner btnResetListner = new ButtonResetListner();
 
     static ArrayList<String> slangItems = new ArrayList<>();
 
@@ -74,6 +75,7 @@ public class EditMainPane extends JPanel {
         btnEndPane.setLayout(new BoxLayout(btnEndPane, BoxLayout.LINE_AXIS));
 
         btnReset = new JButton("Reset Dictionary");
+        btnReset.addActionListener(btnResetListner);
 
         btnBack = new JButton("Back");
         btnBack.addActionListener(App.btnBackListener);
@@ -114,8 +116,7 @@ public class EditMainPane extends JPanel {
                     EditPane.setSlang("", "");
                     App.changePane(App.EDIT_PANEL);
                 }
-            }
-            else {
+            } else {
                 String[] tmp = ((String) lstSlang.getSelectedValue()).split(": ");
                 String key = tmp[0];
                 String value = tmp[1];
@@ -135,7 +136,19 @@ public class EditMainPane extends JPanel {
                     }
                     App.changePane(App.EDIT_PANEL);
                 }
-            }            
+            }
+        }
+    }
+
+    class ButtonResetListner implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int confirm = JOptionPane.showConfirmDialog(null, "Do you want reset dictionary?", "Reset dictionary",
+                    JOptionPane.YES_NO_OPTION);
+            if (confirm == 0) {
+                App.resetDictionary();
+                EditMainPane.setList(App.slangs);
+            }
         }
     }
 }
