@@ -6,7 +6,8 @@ import javax.swing.*;
 
 public class RandomSlangPane extends JPanel{
     JPanel titlePane, subTitlePane, btnPane;
-    JLabel lblTitle, lblSubTitle, lblKey, lblValue;
+    JLabel lblTitle, lblSubTitle;
+    static JLabel lblKey, lblValue;
     JButton btnBack;
 
     public RandomSlangPane() {
@@ -28,7 +29,9 @@ public class RandomSlangPane extends JPanel{
 
         lblKey = new JLabel(" ");
         lblKey.setFont(new Font("Monospace", Font.ITALIC, 18));
+        lblKey.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblValue = new JLabel(" ");
+        lblValue.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         btnPane = new JPanel();
         btnPane.setLayout(new BoxLayout(btnPane, BoxLayout.LINE_AXIS));
@@ -47,5 +50,12 @@ public class RandomSlangPane extends JPanel{
         add(lblValue);
         add(Box.createRigidArea(new Dimension(0, 20)));
         add(btnPane);
+    }
+
+    public static void setRandomSlang() {
+        String tmp[] = App.randomSlang().split(":");
+        String key = tmp[0], value = tmp[1];
+        lblKey.setText(key);
+        lblValue.setText(value);
     }
 }

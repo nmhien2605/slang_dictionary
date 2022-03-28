@@ -64,6 +64,7 @@ public class MainPane extends JPanel{
                 App.changePane(App.EDIT_MAIN_PANEL);
             }
             else if (e.getSource() == btnRandom) {
+                RandomSlangPane.setRandomSlang();
                 App.changePane(App.RANDOM_PANEL);
             }
             else if (e.getSource() == btnQuiz) {

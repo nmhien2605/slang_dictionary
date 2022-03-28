@@ -1,12 +1,15 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 
 import javax.swing.*;
 
-public class App{
+public class App {
     final static int width = 400, height = 400;
     final static String MAIN_PANEL = "main";
     final static String SEARCH_PANEL = "search";
@@ -21,6 +24,9 @@ public class App{
 
     static HashMap<String, String> slangs = new HashMap<>();
     static HashSet<String> history = new HashSet<>();
+    static HashSet<String> historyDay = new HashSet<>();
+    static String randomDay = "28/03/2022";
+    static String keySlangDay = "key2";
 
     public static class ButtonBackListener implements ActionListener {
         @Override
@@ -34,15 +40,15 @@ public class App{
         lblApp.setFont(new Font("Serif", Font.BOLD, 32));
         lblApp.setHorizontalAlignment(SwingConstants.CENTER);
         lblApp.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-        
+
         MainPane mainPane = new MainPane();
         SearchPane searchPane = new SearchPane();
         HistoryPane historyPane = new HistoryPane();
         EditMainPane editMainPane = new EditMainPane();
         EditPane editPane = new EditPane();
         RandomSlangPane randomSlang = new RandomSlangPane();
-        
-        //Create the panel that contains the "cards".
+
+        // Create the panel that contains the "cards".
         cards = new JPanel(new CardLayout());
         cards.add(mainPane, MAIN_PANEL);
         cards.add(searchPane, SEARCH_PANEL);
@@ -50,19 +56,19 @@ public class App{
         cards.add(editMainPane, EDIT_MAIN_PANEL);
         cards.add(editPane, EDIT_PANEL);
         cards.add(randomSlang, RANDOM_PANEL);
-        
+
         pane.add(lblApp, BorderLayout.PAGE_START);
         pane.add(cards, BorderLayout.CENTER);
     }
 
     public static void changePane(String paneName) {
-        CardLayout cl = (CardLayout)(cards.getLayout());
+        CardLayout cl = (CardLayout) (cards.getLayout());
         cl.show(cards, paneName);
     }
 
     public static String searchKey(String key) {
         if (slangs.containsKey(key)) {
-            return (String)slangs.get(key);
+            return (String) slangs.get(key);
         }
         return "";
     }
@@ -102,27 +108,53 @@ public class App{
         slangs = FileHelper.readSlangWord();
     }
 
+    public static String randomSlang() {
+        String key, value;
+
+        Date now = new Date();
+        String date = (new SimpleDateFormat("dd/MM/yyyy")).format(now);
+        if (date.compareTo(randomDay) == 0) {
+            key = keySlangDay;
+            value = slangs.get(key);
+        } else {
+            ArrayList<String> keys = new ArrayList<String>(slangs.keySet());
+            Random ran = new Random();
+            int index;
+            if (historyDay.size() == slangs.size()) {
+                historyDay.clear();
+            }
+            do {
+                index = ran.nextInt(keys.size());
+                key = keys.get(index);
+                value = slangs.get(key);
+            } while (historyDay.contains(key));
+            historyDay.add(key);
+        }
+        return key + ":" + value;
+    }
+
     public static void exit() {
         System.exit(0);
     }
-    
+
     public static void createAndShowGUI() {
-        //Create and set up the window.
+        // Create and set up the window.
         JFrame frame = new JFrame("Slang Dictionary");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(width, height));
-        
-        //Create and set up the content pane.
+
+        // Create and set up the content pane.
         App app = new App();
         app.addComponentToPane(frame.getContentPane());
-        
-        //Display the window.
+
+        // Display the window.
         frame.pack();
         frame.setVisible(true);
     }
 
     public static void main(String[] args) {
         slangs = FileHelper.readSlangWord();
+        historyDay.add("key3");
         // slangs.forEach(action);
         // System.out.println(slangs.get("key"));
         createAndShowGUI();
