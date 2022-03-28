@@ -3,49 +3,37 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class MainPane extends JPanel{
+    JButton btnSearch, btnHistory, btnEdit, btnRandom, btnQuiz, btnExit;
+    ButtonMainListener btnMainListener = new ButtonMainListener();
+
     public MainPane() {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         
-        //Add component to main panel
-        JButton btnSearch = new JButton("Search");
+        btnSearch = new JButton("Search");
         btnSearch.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnSearch.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                App.changePane(App.SEARCH_PANEL);
-            }
-        });
+        btnSearch.addActionListener(btnMainListener);
 
-        JButton btnHistory = new JButton("History");
+        btnHistory = new JButton("History");
         btnHistory.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnHistory.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                App.changePane(App.HISTORY_PANEL);
-            }
-        });
+        btnHistory.addActionListener(btnMainListener);
 
-        JButton btnEdit = new JButton("Edit Dictionary");
+        btnEdit = new JButton("Edit Dictionary");
         btnEdit.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnEdit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                App.changePane(App.EDIT_MAIN_PANEL);
-            }
-        });
+        btnEdit.addActionListener(btnMainListener);
 
-        JButton btnRandom = new JButton("Random slang word");
+        btnRandom = new JButton("Random slang word");
         btnRandom.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JButton btnQuiz = new JButton("Funny Quiz");
+        btnRandom.addActionListener(btnMainListener);
+        
+        btnQuiz = new JButton("Funny Quiz");
         btnQuiz.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JButton btnExit = new JButton("Exit");
+        btnQuiz.addActionListener(btnMainListener);
+        
+        btnExit = new JButton("Exit");
         btnExit.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnExit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                App.exit();
-            }
-        });
+        btnExit.addActionListener(btnMainListener);
+
+        //Add component to pane
         add(Box.createRigidArea(new Dimension(0, 20)));
         add(btnSearch);
         add(Box.createRigidArea(new Dimension(0, 20)));
@@ -58,5 +46,29 @@ public class MainPane extends JPanel{
         add(btnQuiz);
         add(Box.createRigidArea(new Dimension(0, 20)));
         add(btnExit);
+    }
+
+    class ButtonMainListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == btnSearch) {
+                App.changePane(App.SEARCH_PANEL);
+            }
+            else if (e.getSource() == btnHistory) {
+                App.changePane(App.HISTORY_PANEL);
+            }
+            else if (e.getSource() == btnEdit) {
+                App.changePane(App.EDIT_MAIN_PANEL);
+            }
+            else if (e.getSource() == btnRandom) {
+                App.changePane(App.RANDOM_PANEL);
+            }
+            else if (e.getSource() == btnQuiz) {
+                App.changePane(App.QUIZ_PANEL);
+            }
+            else if (e.getSource() == btnExit) {
+                App.exit();
+            }
+        }
     }
 }

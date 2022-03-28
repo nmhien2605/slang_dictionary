@@ -11,16 +11,20 @@ public class App{
     final static String SEARCH_PANEL = "search";
     final static String HISTORY_PANEL = "history";
     final static String EDIT_MAIN_PANEL = "edit main";
+    final static String RANDOM_PANEL = "random";
+    final static String QUIZ_PANEL = "quiz";
+
     static JPanel cards;
 
     static HashMap<String, String> slangs = new HashMap<>();
+
 
     public void addComponentToPane(Container pane) {
         JLabel lblApp = new JLabel("Slang Dictionary");
         lblApp.setFont(new Font("Serif", Font.PLAIN, 32));
         lblApp.setHorizontalAlignment(SwingConstants.CENTER);
         lblApp.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-
+        
         MainPane mainPane = new MainPane();
         SearchPane searchPane = new SearchPane();
         HistoryPane historyPane = new HistoryPane();
