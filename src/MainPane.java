@@ -52,9 +52,11 @@ public class MainPane extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == btnSearch) {
+                SearchPane.reset();
                 App.changePane(App.SEARCH_PANEL);
             }
             else if (e.getSource() == btnHistory) {
+                HistoryPane.reset();
                 App.changePane(App.HISTORY_PANEL);
             }
             else if (e.getSource() == btnEdit) {

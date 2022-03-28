@@ -7,26 +7,32 @@ import javax.swing.*;
 public class SearchPane extends JPanel {
     final String SLANG_WORD = "Slang word";
     final String DEFINITION = "Definition";
+    JComboBox cbxType;
+    JPanel valuePane, keyPane;
+    JScrollPane scrollPane;
+    JLabel lblValue;
+    static JTextField txtKey;
+    static JTextArea txtValue;
+    JButton btnBack;
 
     public SearchPane() {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         String cbxTypeItems[] = { SLANG_WORD, DEFINITION };
-        JComboBox cbxType = new JComboBox(cbxTypeItems);
+        cbxType = new JComboBox(cbxTypeItems);
 
-        JTextField txtKey = new JTextField();
+        txtKey = new JTextField();
 
-        JPanel valuePane = new JPanel();
+        valuePane = new JPanel();
         valuePane.setLayout(new BoxLayout(valuePane, BoxLayout.LINE_AXIS));
-        JLabel lblValue = new JLabel(DEFINITION);
+        lblValue = new JLabel(DEFINITION);
         valuePane.add(lblValue);
         valuePane.add(Box.createHorizontalGlue());
 
-        JTextArea txtValue = new JTextArea(7, 1);
+        txtValue = new JTextArea(7, 1);
         txtValue.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(txtValue);
-
+        scrollPane = new JScrollPane(txtValue);
 
         cbxType.setEditable(false);
         cbxType.addItemListener(new ItemListener() {
@@ -35,49 +41,35 @@ public class SearchPane extends JPanel {
                 String searchKey = txtKey.getText();
                 if (e.getItem() == DEFINITION) {
                     lblValue.setText(SLANG_WORD);
-                    if (searchKey != "") {
-                        ArrayList<String> ans = App.searchValue(searchKey);
-                        txtValue.setText("");
-                        ans.forEach((slang) -> txtValue.append(slang + "\n"));
-                    }
+                    searchValue(searchKey);
                 } else {
                     lblValue.setText(DEFINITION);
-                    String value = App.searchKey(searchKey);
-                    txtValue.setText(value);
+                    searchKey(searchKey);
                 }
             }
         });
-
 
         txtKey.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String searchKey = txtKey.getText();
                 if (cbxType.getSelectedItem() == SLANG_WORD) {
-                    String value = App.searchKey(searchKey);
-                    txtValue.setText(value);
+                    searchKey(searchKey);
                 }
                 else {
-                    ArrayList<String> ans = App.searchValue(searchKey);
-                    txtValue.setText("");
-                    ans.forEach((slang) -> txtValue.append(slang + "\n"));
+                    searchValue(searchKey);
                 }
             }
         });
 
-        JPanel keyPane = new JPanel();
+        keyPane = new JPanel();
         keyPane.setLayout(new BoxLayout(keyPane, BoxLayout.LINE_AXIS));
         keyPane.add(cbxType);
         keyPane.add(Box.createHorizontalGlue());
 
-        JButton btnBack = new JButton("Back");
+        btnBack = new JButton("Back");
         btnBack.setAlignmentX(Box.CENTER_ALIGNMENT);
-        btnBack.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                App.changePane(App.MAIN_PANEL);
-            }
-        });
+        btnBack.addActionListener(App.btnBackListener);
 
         add(keyPane);
         add(Box.createRigidArea(new Dimension(0, 5)));
@@ -88,5 +80,27 @@ public class SearchPane extends JPanel {
         add(scrollPane);
         add(Box.createRigidArea(new Dimension(0, 20)));
         add(btnBack);
+    }
+
+    public static void reset() {
+        txtKey.setText("");
+        txtValue.setText("");
+    }
+
+    void searchKey(String key) {
+        if (key.length() == 0) return;
+        String value = App.searchKey(key);
+        txtValue.setText(value);
+        if (value.length() > 0) {
+            App.addHistory(key + ": " + value);
+        }
+    }
+
+    void searchValue(String key) {
+        if (key.length() == 0) return;
+        ArrayList<String> ans = App.searchValue(key);
+        txtValue.setText("");
+        ans.forEach((slang) -> txtValue.append(slang + "\n"));
+        App.addHistoryMultiple(ans);
     }
 }

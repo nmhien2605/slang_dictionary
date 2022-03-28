@@ -33,12 +33,7 @@ public class EditMainPane extends JPanel{
         JButton btnDelete = new JButton("Delete");
 
         JButton btnBack = new JButton("Back");
-        btnBack.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                App.changePane(App.MAIN_PANEL);
-            }
-        });
+        btnBack.addActionListener(App.btnBackListener);
 
         btnPane.add(btnEdit);
         btnPane.add(Box.createRigidArea(new Dimension(20, 0)));

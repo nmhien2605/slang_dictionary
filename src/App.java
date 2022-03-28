@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import javax.swing.*;
 
@@ -13,11 +14,19 @@ public class App{
     final static String EDIT_MAIN_PANEL = "edit main";
     final static String RANDOM_PANEL = "random";
     final static String QUIZ_PANEL = "quiz";
+    final static ButtonBackListener btnBackListener = new ButtonBackListener();
 
     static JPanel cards;
 
     static HashMap<String, String> slangs = new HashMap<>();
+    static HashSet<String> history = new HashSet<>();
 
+    public static class ButtonBackListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            changePane(MAIN_PANEL);
+        }
+    }
 
     public void addComponentToPane(Container pane) {
         JLabel lblApp = new JLabel("Slang Dictionary");
@@ -61,6 +70,18 @@ public class App{
             }
         });
         return ans;
+    }
+
+    public static void addHistory(String value) {
+        history.add(value);
+        System.out.println(history.size());
+    }
+
+    public static void addHistoryMultiple(ArrayList<String> values) {
+        for (int i = 0; i < values.size(); i++) {
+            history.add(values.get(i));
+        }
+        System.out.println(history.size());
     }
 
     public static void exit() {
