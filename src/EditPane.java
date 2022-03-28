@@ -1,9 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
 public class EditPane extends JPanel{
     JPanel keyPane, valuePane, keyLinePane, valueLinePane, editPane, btnPane;
@@ -13,6 +11,8 @@ public class EditPane extends JPanel{
 
     ButtonSaveListener btnSaveListener = new ButtonSaveListener();
     ButtonBackListener btnBackListener = new ButtonBackListener();
+
+    static String preKey;
 
     public EditPane() {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -74,7 +74,8 @@ public class EditPane extends JPanel{
         add(btnPane);
     }
 
-    public static void setSlang(String key, String value) {
+    public static void setSlang(String pre, String key, String value) {
+        preKey = pre;
         txtKey.setText(key);
         txtValue.setText(value);
     }
@@ -84,6 +85,9 @@ public class EditPane extends JPanel{
         public void actionPerformed(ActionEvent e) {
             String key = txtKey.getText();
             String value = txtValue.getText();
+            if (preKey != null) {
+                App.deleteSlang(preKey);
+            }
             App.addSlang(key, value);
             EditMainPane.setList(App.slangs);
             App.changePane(App.EDIT_MAIN_PANEL);

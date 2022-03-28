@@ -17,8 +17,6 @@ public class EditMainPane extends JPanel {
     ButtonEditListener btnEditListener = new ButtonEditListener();
     ButtonResetListner btnResetListner = new ButtonResetListner();
 
-    static ArrayList<String> slangItems = new ArrayList<>();
-
     public EditMainPane() {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -44,9 +42,7 @@ public class EditMainPane extends JPanel {
         valuePane.add(Box.createHorizontalGlue());
 
         txtKey = new JTextField();
-        slangItems.add("e: e");
-        slangItems.add("s: r");
-        lstSlang = new JList(slangItems.toArray());
+        lstSlang = new JList<>();
         lstSlang.setSelectedIndex(0);
         lstSlang.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         scrollPane = new JScrollPane(lstSlang);
@@ -113,7 +109,7 @@ public class EditMainPane extends JPanel {
         public void actionPerformed(ActionEvent e) {
             if (lstSlang.getSelectedValue() == null) {
                 if (e.getSource() == btnAdd) {
-                    EditPane.setSlang("", "");
+                    EditPane.setSlang(null, "", "");
                     App.changePane(App.EDIT_PANEL);
                 }
             } else {
@@ -129,9 +125,9 @@ public class EditMainPane extends JPanel {
                     }
                 } else {
                     if (e.getSource() == btnAdd) {
-                        EditPane.setSlang("", "");
+                        EditPane.setSlang(null, "", "");
                     } else {
-                        EditPane.setSlang(key, value);
+                        EditPane.setSlang(key, key, value);
                         App.deleteSlang(key);
                     }
                     App.changePane(App.EDIT_PANEL);
