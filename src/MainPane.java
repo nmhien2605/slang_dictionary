@@ -21,7 +21,7 @@ public class MainPane extends JPanel{
         btnEdit.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnEdit.addActionListener(btnMainListener);
 
-        btnRandom = new JButton("Random slang word");
+        btnRandom = new JButton("On this day slang word");
         btnRandom.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnRandom.addActionListener(btnMainListener);
         

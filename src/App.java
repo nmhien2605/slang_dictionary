@@ -31,7 +31,7 @@ public class App{
 
     public void addComponentToPane(Container pane) {
         JLabel lblApp = new JLabel("Slang Dictionary");
-        lblApp.setFont(new Font("Serif", Font.PLAIN, 32));
+        lblApp.setFont(new Font("Serif", Font.BOLD, 32));
         lblApp.setHorizontalAlignment(SwingConstants.CENTER);
         lblApp.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         
@@ -40,6 +40,7 @@ public class App{
         HistoryPane historyPane = new HistoryPane();
         EditMainPane editMainPane = new EditMainPane();
         EditPane editPane = new EditPane();
+        RandomSlangPane randomSlang = new RandomSlangPane();
         
         //Create the panel that contains the "cards".
         cards = new JPanel(new CardLayout());
@@ -48,6 +49,7 @@ public class App{
         cards.add(historyPane, HISTORY_PANEL);
         cards.add(editMainPane, EDIT_MAIN_PANEL);
         cards.add(editPane, EDIT_PANEL);
+        cards.add(randomSlang, RANDOM_PANEL);
         
         pane.add(lblApp, BorderLayout.PAGE_START);
         pane.add(cards, BorderLayout.CENTER);
