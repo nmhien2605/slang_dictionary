@@ -8,9 +8,10 @@ import javax.swing.border.Border;
 public class EditPane extends JPanel{
     JPanel keyPane, valuePane, keyLinePane, valueLinePane, editPane, btnPane;
     JLabel lblKey, lblValue;
-    JTextField txtKey, txtValue;
+    static JTextField txtKey, txtValue;
     JButton btnSave, btnBack;
 
+    ButtonSaveListener btnSaveListener = new ButtonSaveListener();
     ButtonBackListener btnBackListener = new ButtonBackListener();
 
     public EditPane() {
@@ -59,6 +60,7 @@ public class EditPane extends JPanel{
         btnPane.setLayout(new BoxLayout(btnPane, BoxLayout.LINE_AXIS));
 
         btnSave = new JButton("Save");
+        btnSave.addActionListener(btnSaveListener);
 
         btnBack = new JButton("Back");
         btnBack.addActionListener(btnBackListener);
@@ -70,6 +72,22 @@ public class EditPane extends JPanel{
 
         add(editPane);
         add(btnPane);
+    }
+
+    public static void setSlang(String key, String value) {
+        txtKey.setText(key);
+        txtValue.setText(value);
+    }
+
+    class ButtonSaveListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String key = txtKey.getText();
+            String value = txtValue.getText();
+            App.addSlang(key, value);
+            EditMainPane.setList(App.slangs);
+            App.changePane(App.EDIT_MAIN_PANEL);
+        }
     }
     
     class ButtonBackListener implements ActionListener {

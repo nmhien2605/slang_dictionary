@@ -87,6 +87,14 @@ public class App{
         System.out.println(history.size());
     }
 
+    public static void addSlang(String key, String value) {
+        slangs.put(key, value);
+    }
+
+    public static void deleteSlang(String key) {
+        slangs.remove(key);
+    }
+
     public static void exit() {
         System.exit(0);
     }

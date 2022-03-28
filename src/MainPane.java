@@ -60,6 +60,7 @@ public class MainPane extends JPanel{
                 App.changePane(App.HISTORY_PANEL);
             }
             else if (e.getSource() == btnEdit) {
+                EditMainPane.setList(App.slangs);
                 App.changePane(App.EDIT_MAIN_PANEL);
             }
             else if (e.getSource() == btnRandom) {

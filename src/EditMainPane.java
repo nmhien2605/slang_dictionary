@@ -1,16 +1,17 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.*;
 
-public class EditMainPane extends JPanel{
+public class EditMainPane extends JPanel {
     JPanel searchPane, keyPane, valuePane, btnEditPane, btnEndPane;
     JScrollPane scrollPane;
     JComboBox<String> cbxType;
     JLabel lblValue, lblSearch;
     JTextField txtKey;
-    JList slangs;
+    static JList lstSlang;
     JButton btnReset, btnAdd, btnEdit, btnDelete, btnBack;
 
     ButtonEditListener btnEditListener = new ButtonEditListener();
@@ -44,9 +45,10 @@ public class EditMainPane extends JPanel{
         txtKey = new JTextField();
         slangItems.add("e: e");
         slangItems.add("s: r");
-        slangs = new JList(slangItems.toArray());
-        slangs.setSelectedIndex(0);
-        scrollPane = new JScrollPane(slangs);
+        lstSlang = new JList(slangItems.toArray());
+        lstSlang.setSelectedIndex(0);
+        lstSlang.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        scrollPane = new JScrollPane(lstSlang);
 
         btnEditPane = new JPanel();
         btnEditPane.setLayout(new BoxLayout(btnEditPane, BoxLayout.LINE_AXIS));
@@ -95,28 +97,45 @@ public class EditMainPane extends JPanel{
         add(btnEndPane);
     }
 
-    public static void updateList() {
-        slangItems.clear();
-        // slangItems = new ArrayList(App.slangs);
+    public static void setList(HashMap<String, String> slangs) {
+        ArrayList<String> data = new ArrayList<>();
+        slangs.forEach((key, val) -> {
+            data.add(key + ": " + val);
+        });
+        data.sort(null);
+        lstSlang.setListData(data.toArray());
     }
 
     class ButtonEditListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // slangItems.add("r: f");
-            // slangs.setListData( slangItems.toArray());
-            String[] tmp = ((String) slangs.getSelectedValue()).split(": ");
-            String key = tmp[0];
-            String value = tmp[1];
-            if (e.getSource() == btnDelete) {
-                int confirm = JOptionPane.showConfirmDialog(null, "Do you want to delete?", "Delete slang word", JOptionPane.YES_NO_OPTION);
-                if (confirm == 0) {
-                    //delete
+            if (lstSlang.getSelectedValue() == null) {
+                if (e.getSource() == btnAdd) {
+                    EditPane.setSlang("", "");
+                    App.changePane(App.EDIT_PANEL);
                 }
             }
             else {
-                App.changePane(App.EDIT_PANEL);
-            }
+                String[] tmp = ((String) lstSlang.getSelectedValue()).split(": ");
+                String key = tmp[0];
+                String value = tmp[1];
+                if (e.getSource() == btnDelete) {
+                    int confirm = JOptionPane.showConfirmDialog(null, "Do you want to delete?", "Delete slang word",
+                            JOptionPane.YES_NO_OPTION);
+                    if (confirm == 0) {
+                        App.deleteSlang(key);
+                        EditMainPane.setList(App.slangs);
+                    }
+                } else {
+                    if (e.getSource() == btnAdd) {
+                        EditPane.setSlang("", "");
+                    } else {
+                        EditPane.setSlang(key, value);
+                        App.deleteSlang(key);
+                    }
+                    App.changePane(App.EDIT_PANEL);
+                }
+            }            
         }
     }
 }
