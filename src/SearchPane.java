@@ -7,7 +7,7 @@ import javax.swing.*;
 public class SearchPane extends JPanel {
     final String SLANG_WORD = "Slang word";
     final String DEFINITION = "Definition";
-    JComboBox cbxType;
+    JComboBox<String> cbxType;
     JPanel valuePane, keyPane;
     JScrollPane scrollPane;
     JLabel lblValue;
@@ -20,7 +20,7 @@ public class SearchPane extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         String cbxTypeItems[] = { SLANG_WORD, DEFINITION };
-        cbxType = new JComboBox(cbxTypeItems);
+        cbxType = new JComboBox<String>(cbxTypeItems);
 
         txtKey = new JTextField();
 

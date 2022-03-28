@@ -12,6 +12,7 @@ public class App{
     final static String SEARCH_PANEL = "search";
     final static String HISTORY_PANEL = "history";
     final static String EDIT_MAIN_PANEL = "edit main";
+    final static String EDIT_PANEL = "edit";
     final static String RANDOM_PANEL = "random";
     final static String QUIZ_PANEL = "quiz";
     final static ButtonBackListener btnBackListener = new ButtonBackListener();
@@ -38,6 +39,7 @@ public class App{
         SearchPane searchPane = new SearchPane();
         HistoryPane historyPane = new HistoryPane();
         EditMainPane editMainPane = new EditMainPane();
+        EditPane editPane = new EditPane();
         
         //Create the panel that contains the "cards".
         cards = new JPanel(new CardLayout());
@@ -45,6 +47,7 @@ public class App{
         cards.add(searchPane, SEARCH_PANEL);
         cards.add(historyPane, HISTORY_PANEL);
         cards.add(editMainPane, EDIT_MAIN_PANEL);
+        cards.add(editPane, EDIT_PANEL);
         
         pane.add(lblApp, BorderLayout.PAGE_START);
         pane.add(cards, BorderLayout.CENTER);

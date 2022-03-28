@@ -1,54 +1,122 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 public class EditMainPane extends JPanel{
+    JPanel searchPane, keyPane, valuePane, btnEditPane, btnEndPane;
+    JScrollPane scrollPane;
+    JComboBox<String> cbxType;
+    JLabel lblValue, lblSearch;
+    JTextField txtKey;
+    JList slangs;
+    JButton btnReset, btnAdd, btnEdit, btnDelete, btnBack;
+
+    ButtonEditListener btnEditListener = new ButtonEditListener();
+
+    static ArrayList<String> slangItems = new ArrayList<>();
+
     public EditMainPane() {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        JPanel keyPane = new JPanel();
+        searchPane = new JPanel();
+        searchPane.setLayout(new BoxLayout(searchPane, BoxLayout.LINE_AXIS));
+        lblSearch = new JLabel("Search");
+        searchPane.add(lblSearch);
+        searchPane.add(Box.createHorizontalGlue());
+
+        keyPane = new JPanel();
         keyPane.setLayout(new BoxLayout(keyPane, BoxLayout.LINE_AXIS));
         String cbxTypeItems[] = { "Slang word", "Definition" };
-        JComboBox cbxType = new JComboBox(cbxTypeItems);
+        cbxType = new JComboBox<String>(cbxTypeItems);
         cbxType.setEditable(false);
         keyPane.add(cbxType);
         keyPane.add(Box.createHorizontalGlue());
 
-        JPanel valuePane = new JPanel();
+        valuePane = new JPanel();
         valuePane.setLayout(new BoxLayout(valuePane, BoxLayout.LINE_AXIS));
-        JLabel lblValue = new JLabel("Definition");
+        lblValue = new JLabel("Dictionary");
         valuePane.add(lblValue);
         valuePane.add(Box.createHorizontalGlue());
 
-        JTextField txtKey = new JTextField();
-        JTextArea txtValue = new JTextArea();
-        txtValue.setEditable(false);
+        txtKey = new JTextField();
+        slangItems.add("e: e");
+        slangItems.add("s: r");
+        slangs = new JList(slangItems.toArray());
+        slangs.setSelectedIndex(0);
+        scrollPane = new JScrollPane(slangs);
 
-        JPanel btnPane = new JPanel();
-        btnPane.setLayout(new BoxLayout(btnPane, BoxLayout.LINE_AXIS));
+        btnEditPane = new JPanel();
+        btnEditPane.setLayout(new BoxLayout(btnEditPane, BoxLayout.LINE_AXIS));
 
-        JButton btnEdit = new JButton("Edit");
+        btnAdd = new JButton("Add new");
+        btnAdd.addActionListener(btnEditListener);
 
-        JButton btnDelete = new JButton("Delete");
+        btnEdit = new JButton("Edit");
+        btnEdit.addActionListener(btnEditListener);
 
-        JButton btnBack = new JButton("Back");
+        btnDelete = new JButton("Delete");
+        btnDelete.addActionListener(btnEditListener);
+
+        btnEditPane.add(Box.createHorizontalGlue());
+        btnEditPane.add(btnAdd);
+        btnEditPane.add(Box.createRigidArea(new Dimension(10, 0)));
+        btnEditPane.add(btnEdit);
+        btnEditPane.add(Box.createRigidArea(new Dimension(10, 0)));
+        btnEditPane.add(btnDelete);
+        // btnEditPane.add(Box.createRigidArea(new Dimension(10, 0)));
+
+        btnEndPane = new JPanel();
+        btnEndPane.setLayout(new BoxLayout(btnEndPane, BoxLayout.LINE_AXIS));
+
+        btnReset = new JButton("Reset Dictionary");
+
+        btnBack = new JButton("Back");
         btnBack.addActionListener(App.btnBackListener);
 
-        btnPane.add(btnEdit);
-        btnPane.add(Box.createRigidArea(new Dimension(20, 0)));
-        btnPane.add(btnDelete);
-        btnPane.add(Box.createRigidArea(new Dimension(20, 0)));
-        btnPane.add(btnBack);
+        btnEndPane.add(btnReset);
+        btnEndPane.add(Box.createHorizontalGlue());
+        btnEndPane.add(btnBack);
 
+        add(searchPane);
+        add(Box.createRigidArea(new Dimension(0, 5)));
         add(keyPane);
         add(Box.createRigidArea(new Dimension(0, 5)));
         add(txtKey);
         add(Box.createRigidArea(new Dimension(0, 20)));
         add(valuePane);
         add(Box.createRigidArea(new Dimension(0, 5)));
-        add(txtValue);
+        add(scrollPane);
+        add(Box.createRigidArea(new Dimension(0, 5)));
+        add(btnEditPane);
         add(Box.createRigidArea(new Dimension(0, 20)));
-        add(btnPane);
+        add(btnEndPane);
+    }
+
+    public static void updateList() {
+        slangItems.clear();
+        // slangItems = new ArrayList(App.slangs);
+    }
+
+    class ButtonEditListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // slangItems.add("r: f");
+            // slangs.setListData( slangItems.toArray());
+            String[] tmp = ((String) slangs.getSelectedValue()).split(": ");
+            String key = tmp[0];
+            String value = tmp[1];
+            if (e.getSource() == btnDelete) {
+                int confirm = JOptionPane.showConfirmDialog(null, "Do you want to delete?", "Delete slang word", JOptionPane.YES_NO_OPTION);
+                if (confirm == 0) {
+                    //delete
+                }
+            }
+            else {
+                App.changePane(App.EDIT_PANEL);
+            }
+        }
     }
 }
