@@ -21,19 +21,19 @@ public class EditMainPane extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        searchPane = new JPanel();
-        searchPane.setLayout(new BoxLayout(searchPane, BoxLayout.LINE_AXIS));
-        lblSearch = new JLabel("Search");
-        searchPane.add(lblSearch);
-        searchPane.add(Box.createHorizontalGlue());
+        // searchPane = new JPanel();
+        // searchPane.setLayout(new BoxLayout(searchPane, BoxLayout.LINE_AXIS));
+        // lblSearch = new JLabel("Search");
+        // searchPane.add(lblSearch);
+        // searchPane.add(Box.createHorizontalGlue());
 
-        keyPane = new JPanel();
-        keyPane.setLayout(new BoxLayout(keyPane, BoxLayout.LINE_AXIS));
-        String cbxTypeItems[] = { "Slang word", "Definition" };
-        cbxType = new JComboBox<String>(cbxTypeItems);
-        cbxType.setEditable(false);
-        keyPane.add(cbxType);
-        keyPane.add(Box.createHorizontalGlue());
+        // keyPane = new JPanel();
+        // keyPane.setLayout(new BoxLayout(keyPane, BoxLayout.LINE_AXIS));
+        // String cbxTypeItems[] = { "Slang word", "Definition" };
+        // cbxType = new JComboBox<String>(cbxTypeItems);
+        // cbxType.setEditable(false);
+        // keyPane.add(cbxType);
+        // keyPane.add(Box.createHorizontalGlue());
 
         valuePane = new JPanel();
         valuePane.setLayout(new BoxLayout(valuePane, BoxLayout.LINE_AXIS));
@@ -41,7 +41,7 @@ public class EditMainPane extends JPanel {
         valuePane.add(lblValue);
         valuePane.add(Box.createHorizontalGlue());
 
-        txtKey = new JTextField();
+        // txtKey = new JTextField();
         lstSlang = new JList<>();
         lstSlang.setSelectedIndex(0);
         lstSlang.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -80,12 +80,12 @@ public class EditMainPane extends JPanel {
         btnEndPane.add(Box.createHorizontalGlue());
         btnEndPane.add(btnBack);
 
-        add(searchPane);
-        add(Box.createRigidArea(new Dimension(0, 5)));
-        add(keyPane);
-        add(Box.createRigidArea(new Dimension(0, 5)));
-        add(txtKey);
-        add(Box.createRigidArea(new Dimension(0, 20)));
+        // add(searchPane);
+        // add(Box.createRigidArea(new Dimension(0, 5)));
+        // add(keyPane);
+        // add(Box.createRigidArea(new Dimension(0, 5)));
+        // add(txtKey);
+        // add(Box.createRigidArea(new Dimension(0, 20)));
         add(valuePane);
         add(Box.createRigidArea(new Dimension(0, 5)));
         add(scrollPane);
