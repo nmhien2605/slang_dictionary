@@ -98,7 +98,7 @@ public class EditMainPane extends JPanel {
     public static void setList(HashMap<String, String> slangs) {
         ArrayList<String> data = new ArrayList<>();
         slangs.forEach((key, val) -> {
-            data.add(key + ": " + val);
+            data.add(key + " ` " + val);
         });
         data.sort(null);
         lstSlang.setListData(data.toArray());
@@ -113,7 +113,7 @@ public class EditMainPane extends JPanel {
                     App.changePane(App.EDIT_PANEL);
                 }
             } else {
-                String[] tmp = ((String) lstSlang.getSelectedValue()).split(": ");
+                String[] tmp = ((String) lstSlang.getSelectedValue()).split(" ` ");
                 String key = tmp[0];
                 String value = tmp[1];
                 if (e.getSource() == btnDelete) {

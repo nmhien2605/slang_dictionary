@@ -68,7 +68,7 @@ public class MainPane extends JPanel{
                 App.changePane(App.RANDOM_PANEL);
             }
             else if (e.getSource() == btnQuiz) {
-                App.changePane(App.QUIZ_PANEL);
+                App.changePane(App.QUIZ_MAIN_PANEL);
             }
             else if (e.getSource() == btnExit) {
                 App.exit();

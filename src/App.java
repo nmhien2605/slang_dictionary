@@ -17,6 +17,7 @@ public class App {
     final static String EDIT_MAIN_PANEL = "edit main";
     final static String EDIT_PANEL = "edit";
     final static String RANDOM_PANEL = "random";
+    final static String QUIZ_MAIN_PANEL = "quiz main";
     final static String QUIZ_PANEL = "quiz";
     final static ButtonBackListener btnBackListener = new ButtonBackListener();
 
@@ -47,6 +48,8 @@ public class App {
         EditMainPane editMainPane = new EditMainPane();
         EditPane editPane = new EditPane();
         RandomSlangPane randomSlang = new RandomSlangPane();
+        QuizMainPane quizMainPane = new QuizMainPane();
+        QuizPane quizPane = new QuizPane();
 
         // Create the panel that contains the "cards".
         cards = new JPanel(new CardLayout());
@@ -56,6 +59,8 @@ public class App {
         cards.add(editMainPane, EDIT_MAIN_PANEL);
         cards.add(editPane, EDIT_PANEL);
         cards.add(randomSlang, RANDOM_PANEL);
+        cards.add(quizMainPane, QUIZ_MAIN_PANEL);
+        cards.add(quizPane, QUIZ_PANEL);
 
         pane.add(lblApp, BorderLayout.PAGE_START);
         pane.add(cards, BorderLayout.CENTER);
@@ -77,7 +82,7 @@ public class App {
         ArrayList<String> ans = new ArrayList<>();
         slangs.forEach((key, val) -> {
             if (((String) val).contains(value)) {
-                ans.add(key + ": " + val);
+                ans.add(key + " ` " + val);
             }
         });
         return ans;
@@ -108,7 +113,25 @@ public class App {
         slangs = FileHelper.readSlangWord();
     }
 
-    public static String randomSlang() {
+    public static HashMap<String, String> randomSlangQuiz() {
+        HashMap<String, String> ques = new HashMap<>();
+        ArrayList<String> keys = new ArrayList<String>(slangs.keySet());
+        Random ran = new Random();
+        int index, num = 0;
+        String key, value;
+        do {
+            index = ran.nextInt(keys.size());
+            key = keys.get(index);
+            value = slangs.get(key);
+            if (!ques.containsKey(key)) {
+                ques.put(key, value);
+                num++;
+            }
+        } while (num < 4);
+        return ques;
+    }
+
+    public static String randomSlangDay() {
         String key, value;
 
         Date now = new Date();
@@ -130,7 +153,7 @@ public class App {
             } while (historyDay.contains(key));
             historyDay.add(key);
         }
-        return key + ":" + value;
+        return key + "`" + value;
     }
 
     public static void exit() {

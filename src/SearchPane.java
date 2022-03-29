@@ -92,7 +92,7 @@ public class SearchPane extends JPanel {
         String value = App.searchKey(key);
         txtValue.setText(value);
         if (value.length() > 0) {
-            App.addHistory(key + ": " + value);
+            App.addHistory(key + " ` " + value);
         }
     }
 

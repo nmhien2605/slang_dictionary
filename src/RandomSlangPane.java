@@ -1,6 +1,4 @@
 import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -37,6 +35,7 @@ public class RandomSlangPane extends JPanel{
         btnPane.setLayout(new BoxLayout(btnPane, BoxLayout.LINE_AXIS));
 
         btnBack = new JButton("Back");
+        btnBack.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnBack.addActionListener(App.btnBackListener);
 
         btnPane.add(Box.createHorizontalGlue());
@@ -48,12 +47,12 @@ public class RandomSlangPane extends JPanel{
         add(Box.createRigidArea(new Dimension(0, 20)));
         add(subTitlePane);
         add(lblValue);
-        add(Box.createRigidArea(new Dimension(0, 20)));
-        add(btnPane);
+        add(Box.createRigidArea(new Dimension(0, 50)));
+        add(btnBack);
     }
 
     public static void setRandomSlang() {
-        String tmp[] = App.randomSlang().split(":");
+        String tmp[] = App.randomSlangDay().split("`");
         String key = tmp[0], value = tmp[1];
         lblKey.setText(key);
         lblValue.setText(value);
