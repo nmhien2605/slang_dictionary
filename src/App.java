@@ -26,8 +26,8 @@ public class App {
     static HashMap<String, String> slangs = new HashMap<>();
     static HashSet<String> history = new HashSet<>();
     static HashSet<String> historyDay = new HashSet<>();
-    static String randomDay = "28/03/2022";
-    static String keySlangDay = "key2";
+    static String randomDay;
+    static String keySlangDay;
 
     public static class ButtonBackListener implements ActionListener {
         @Override
@@ -90,27 +90,30 @@ public class App {
 
     public static void addHistory(String value) {
         history.add(value);
-        System.out.println(history.size());
+        FileHelper.writeHistoryFile(history);
     }
 
     public static void addHistoryMultiple(ArrayList<String> values) {
         for (int i = 0; i < values.size(); i++) {
             history.add(values.get(i));
+            FileHelper.writeHistoryFile(history);
         }
-        System.out.println(history.size());
     }
 
     public static void addSlang(String key, String value) {
         slangs.put(key, value);
+        FileHelper.writeSlangFile(slangs);
     }
 
     public static void deleteSlang(String key) {
         slangs.remove(key);
+        FileHelper.writeSlangFile(slangs);
     }
 
     public static void resetDictionary() {
         slangs.clear();
-        slangs = FileHelper.readSlangWord();
+        slangs = FileHelper.readSlangDefaultFile();
+        FileHelper.writeSlangFile(slangs);
     }
 
     public static HashMap<String, String> randomSlangQuiz() {
@@ -152,6 +155,10 @@ public class App {
                 value = slangs.get(key);
             } while (historyDay.contains(key));
             historyDay.add(key);
+            randomDay = date;
+            keySlangDay = key;
+            FileHelper.writeHistoryDayFile(historyDay);
+            FileHelper.writeSlangDayFile(randomDay, keySlangDay);
         }
         return key + "`" + value;
     }
@@ -165,6 +172,7 @@ public class App {
         JFrame frame = new JFrame("Slang Dictionary");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(width, height));
+        frame.setResizable(false);
 
         // Create and set up the content pane.
         App app = new App();
@@ -176,11 +184,13 @@ public class App {
     }
 
     public static void main(String[] args) {
-        slangs = FileHelper.readSlangWord();
-        historyDay.add("key3");
-        // slangs.forEach(action);
-        // System.out.println(slangs.get("key"));
+        slangs = FileHelper.readSlangFile();
+        history = FileHelper.readHistoryFile();
+        historyDay = FileHelper.readHistoryDayFile();
+        String tmp[] = FileHelper.readSlangDayFile().split("`");
+        randomDay = tmp[0];
+        keySlangDay = tmp[1];
+
         createAndShowGUI();
-        // System.out.println("This is Slang Dictionary!");
     }
 }
